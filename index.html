@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Forgive Me Sayang</title>
+
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+
+      /* Romantic blurred background */
+      background: url("https://i.postimg.cc/XBq7V3tz/amor-1.jpg") center/cover no-repeat;
+      min-height: 100vh;
+      overflow: hidden;
+      color: #7a1f46;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      backdrop-filter: blur(12px);
+      background: rgba(255, 240, 245, 0.6);
+      z-index: -1;
+    }
+
+    .page {
+      display: none;
+      min-height: 100vh;
+      width: 100%;
+      padding: 24px;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .page.active { display: flex; }
+
+    .card {
+      width: min(760px, 92vw);
+      background: rgba(255,255,255,0.92);
+      border-radius: 24px;
+      padding: 32px 24px;
+      text-align: center;
+      box-shadow: 0 18px 40px rgba(122,31,70,0.2);
+    }
+
+    .button-zone {
+      position: relative;
+      height: 220px;
+      margin-top: 20px;
+    }
+
+    .btn {
+      border: none;
+      border-radius: 999px;
+      padding: 14px 28px;
+      font-weight: bold;
+      cursor: pointer;
+      position: absolute;
+    }
+
+    .yes-btn {
+      background: #ff4f8b;
+      color: white;
+      left: 30%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .no-btn {
+      background: white;
+      border: 2px solid #ff8fb7;
+      color: #c9316d;
+      left: 70%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .notes {
+      text-align: left;
+      background: #fff7fa;
+      border-radius: 16px;
+      padding: 16px;
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px,1fr));
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .photo-box {
+      width: 100%;
+      aspect-ratio: 1/1;
+      border-radius: 16px;
+      object-fit: cover;
+    }
+
+    .caption {
+      font-size: 0.85rem;
+      margin-top: 4px;
+    }
+  </style>
+
+</head>
+
+<body>
+
+<section class="page active" id="page1">
+  <div class="card">
+    <h1>WILL YOU FORGIVE ME SAYANG? 💖</h1>
+    <p>I know I made a mistake, and I really want to make things right.</p>
+
+```
+<div class="button-zone" id="zone1">
+  <button class="btn yes-btn" onclick="showPage(2)">YES 💗</button>
+  <button class="btn no-btn" id="no1">NO 🙈</button>
+</div>
+```
+
+  </div>
+</section>
+
+<section class="page" id="page2">
+  <div class="card">
+    <h2>Please read this first 💌</h2>
+
+```
+<div class="notes">
+  <ul>
+    <li>I'm sorry for what I've done.</li>
+    <li>I understand how you feel.</li>
+    <li>I want only you in my life.</li>
+    <li>I promise I will never repeat this again.</li>
+  </ul>
+</div>
+
+<div class="button-zone" id="zone2">
+  <button class="btn yes-btn" onclick="showPage(3)">YES 💞</button>
+  <button class="btn no-btn" id="no2">NO 😭</button>
+</div>
+```
+
+  </div>
+</section>
+
+<section class="page" id="page3">
+  <div class="card">
+    <h2>OUR BEAUTIFUL MEMORIES 🥹❤️</h2>
+
+```
+<div class="gallery">
+
+  <div>
+    <img src="https://i.postimg.cc/XBq7V3tz/amor-1.jpg" class="photo-box">
+    <div class="caption">Our favorite moment ❤️</div>
+  </div>
+
+  <div>
+    <img src="https://i.postimg.cc/RJhVM9jB/amor-2.jpg" class="photo-box">
+    <div class="caption">You make me smile 😊</div>
+  </div>
+
+  <div>
+    <img src="https://i.postimg.cc/ZvnKTZ1t/amor-3.jpg" class="photo-box">
+    <div class="caption">My beautiful sayang 💕</div>
+  </div>
+
+  <div>
+    <img src="https://i.postimg.cc/7JhYxDpr/amor-4.jpg" class="photo-box">
+    <div class="caption">Memories I will never forget 🥺</div>
+  </div>
+
+  <div>
+    <img src="https://i.postimg.cc/vx4g0W8r/amor-5.jpg" class="photo-box">
+    <div class="caption">You are my happiness 💖</div>
+  </div>
+
+  <div>
+    <img src="https://i.postimg.cc/wRMT6HSd/amor-6.jpg" class="photo-box">
+    <div class="caption">I miss this moment 😭</div>
+  </div>
+
+  <div>
+    <img src="https://i.postimg.cc/ZvnKTZ1T/amor-7.jpg" class="photo-box">
+    <div class="caption">Please forgive me ❤️</div>
+  </div>
+
+</div>
+```
+
+  </div>
+</section>
+
+<script>
+function showPage(page){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page'+page).classList.add('active');
+}
+
+function move(btn,zone){
+  const b=document.getElementById(btn);
+  const z=document.getElementById(zone);
+
+  function run(){
+    b.style.left=Math.random()*(z.clientWidth-b.offsetWidth)+"px";
+    b.style.top=Math.random()*(z.clientHeight-b.offsetHeight)+"px";
+    b.style.transform="none";
+  }
+
+  b.addEventListener("mouseenter",run);
+  b.addEventListener("click",e=>{e.preventDefault();run();});
+}
+
+move("no1","zone1");
+move("no2","zone2");
+</script>
+
+</body>
+</html>
