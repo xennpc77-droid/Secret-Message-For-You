@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>For My Love</title>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;600;700&display=swap');
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      color: #7a1848;
+      overflow: hidden;
+      min-height: 100vh;
+      background: linear-gradient(-45deg, #ffd6e7, #fff0f6, #ffe4ec, #ffd1dc);
+      background-size: 400% 400%;
+      animation: romanticBackground 15s ease infinite;
+      position: relative;
+    }
+
+    @keyframes romanticBackground {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .floating-hearts {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
+    }
+
+    .heart {
+      position: absolute;
+      bottom: -40px;
+      font-size: 20px;
+      color: rgba(255, 105, 180, 0.35);
+      animation: floatUp linear forwards;
+    }
+
+    @keyframes floatUp {
+      0% {
+        transform: translateY(0) scale(0.8) rotate(0deg);
+        opacity: 0;
+      }
+      15% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-120vh) scale(1.4) rotate(20deg);
+        opacity: 0;
+      }
+    }
+
+    .page {
+      display: none;
+      min-height: 100vh;
+      width: 100%;
+      justify-content: center;
+      align-items: center;
+      padding: 24px;
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+    }
+
+    .page.active {
+      display: flex;
+    }
+
+    #page3 {
+      overflow-y: auto;
+      align-items: flex-start;
+      padding-top: 32px;
+      padding-bottom: 100px;
+    }
+
+    .card {
+      width: min(92vw, 900px);
+      background: rgba(255, 255, 255, 0.78);
+      backdrop-filter: blur(12px);
+      border-radius: 30px;
+      padding: 34px 24px;
+      text-align: center;
+      box-shadow: 0 18px 45px rgba(194, 24, 91, 0.18);
+      border: 1px solid rgba(255,255,255,0.8);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: -20%;
+      background: radial-gradient(circle, rgba(255,255,255,0.28), transparent 60%);
+      animation: glowMove 8s linear infinite;
+      pointer-events: none;
+    }
+
+    @keyframes glowMove {
+      0% { transform: translate(-8%, -8%) rotate(0deg); }
+      50% { transform: translate(8%, 8%) rotate(180deg); }
+      100% { transform: translate(-8%, -8%) rotate(360deg); }
+    }
+
+    .content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .title {
+      font-family: 'Great Vibes', cursive;
+      font-size: clamp(3rem, 7vw, 5.2rem);
+      color: #c2185b;
+      margin-bottom: 10px;
+      text-shadow: 0 5px 18px rgba(194, 24, 91, 0.18);
+    }
+
+    .subtitle {
+      font-size: clamp(1rem, 2.4vw, 1.2rem);
+      margin-bottom: 28px;
+      color: #91456c;
+    }
+
+    .message {
+      font-size: clamp(1rem, 2.2vw, 1.18rem);
+      line-height: 1.9;
+      max-width: 720px;
+      margin: 0 auto 24px;
+      color: #7a1848;
+    }
+
+    .journey-title {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 700;
+      letter-spacing: 1px;
+      font-size: clamp(2rem, 4vw, 3.1rem);
+      color: #c2185b;
+      margin-bottom: 18px;
+    }
+
+    .btn-wrap {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-top: 18px;
+    }
+
+    button {
+      border: none;
+      cursor: pointer;
+      padding: 14px 28px;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 1rem;
+      transition: all 0.25s ease;
+      box-shadow: 0 10px 24px rgba(194, 24, 91, 0.2);
+    }
+
+    .yes-btn, .next-btn, .popup-btn {
+      background: linear-gradient(135deg, #ff5fa2, #ff85b8);
+      color: white;
+    }
+
+    .no-btn {
+      background: white;
+      color: #c2185b;
+      border: 2px solid #f3a4c6;
+    }
+
+    .yes-btn:hover, .next-btn:hover, .popup-btn:hover {
+      transform: scale(1.05);
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 16px;
+      margin-top: 24px;
+    }
+
+    .gallery img {
+      width: 100%;
+      height: 240px;
+      object-fit: cover;
+      border-radius: 18px;
+      display: block;
+      box-shadow: 0 10px 22px rgba(194, 24, 91, 0.15);
+      transition: transform 0.25s ease;
+    }
+
+    .gallery img:hover {
+      transform: scale(1.03) translateY(-4px);
+    }
+
+    .gallery-note {
+      margin-top: 18px;
+      font-size: 1rem;
+      color: #91456c;
+    }
+
+    #musicBtn {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      z-index: 30;
+      background: linear-gradient(135deg, #ff5fa2, #ff85b8);
+      color: white;
+      border: none;
+      padding: 12px 18px;
+      border-radius: 999px;
+      font-weight: 700;
+    }
+
+    .love-popup {
+      position: fixed;
+      inset: 0;
+      background: rgba(255, 192, 203, 0.22);
+      backdrop-filter: blur(8px);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 50;
+      padding: 20px;
+    }
+
+    .love-popup.show {
+      display: flex;
+      animation: popupFade 0.5s ease forwards;
+    }
+
+    @keyframes popupFade {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .popup-box {
+      width: min(92vw, 700px);
+      background: rgba(255,255,255,0.9);
+      border-radius: 30px;
+      padding: 34px 24px;
+      text-align: center;
+      box-shadow: 0 20px 50px rgba(194, 24, 91, 0.25);
+      border: 1px solid rgba(255,255,255,0.9);
+      animation: popupScale 0.7s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    @keyframes popupScale {
+      0% {
+        transform: scale(0.65);
+        opacity: 0;
+      }
+      60% {
+        transform: scale(1.06);
+        opacity: 1;
+      }
+      100% {
+        transform: scale(1);
+      }
+    }
+
+    .popup-title {
+      font-family: 'Great Vibes', cursive;
+      font-size: clamp(3rem, 8vw, 5.8rem);
+      color: #c2185b;
+      line-height: 1.1;
+      text-shadow: 0 8px 24px rgba(194, 24, 91, 0.2);
+      animation: pulseLove 1.8s ease-in-out infinite;
+    }
+
+    @keyframes pulseLove {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.08); }
+    }
+
+    .popup-sub {
+      margin-top: 12px;
+      font-size: 1.1rem;
+      color: #8b3560;
+    }
+
+    .popup-hearts {
+      margin: 16px 0;
+      font-size: 1.6rem;
+      animation: sparkleBounce 1.4s ease-in-out infinite;
+    }
+
+    @keyframes sparkleBounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+
+    .show-popup-btn {
+      margin-top: 22px;
+    }
+
+    @media (max-width: 640px) {
+      .card {
+        padding: 28px 18px;
+        border-radius: 24px;
+      }
+
+      button {
+        width: 100%;
+      }
+
+      .gallery img {
+        height: 220px;
+      }
+
+      #musicBtn {
+        bottom: 14px;
+        right: 14px;
+        padding: 11px 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="floating-hearts" id="hearts"></div>
+
+  <audio id="bgMusic" loop>
+    <source src="https://videotourl.com/audio/1775702180108-2679b15b-a701-4efc-8d55-518f5d8737b4.mp3" type="audio/mpeg">
+  </audio>
+
+  <button id="musicBtn">🎵 Music On</button>
+
+  <section class="page active" id="page1">
+    <div class="card">
+      <div class="content">
+        <h1 class="title">A Special Message 💖</h1>
+        <p class="subtitle">Will you read this from my heart?</p>
+
+        <div class="btn-wrap">
+          <button class="yes-btn" id="yesBtn">Yes 💕</button>
+          <button class="no-btn" id="noBtn">No</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="page" id="page2">
+    <div class="card">
+      <div class="content">
+        <h2 class="title">You Mean Everything 💗</h2>
+        <p class="message">
+          You are the most beautiful part of my life. Every moment with you feels
+          special and unforgettable. You bring happiness into my world in ways I
+          never imagined. Your smile, your presence, your love, and the way you
+          make everything feel softer and brighter mean more to me than words can
+          ever explain. I love you deeply, and I appreciate you more than I could
+          ever fully say.
+        </p>
+
+        <button class="next-btn" onclick="showPage(3)">Continue 💞</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="page" id="page3">
+    <div class="card">
+      <div class="content">
+        <h2 class="journey-title">OUR JOURNEY OF 1 YEAR</h2>
+
+        <p class="message">
+          Every moment with you has become a memory I treasure. This past year has
+          been filled with love, laughter, sweetness, and memories that will stay
+          in my heart forever.
+        </p>
+
+        <div class="gallery">
+          <img src="https://i.postimg.cc/jDjv5YCK/Whats-App-Image-2026-04-08-at-17-37-29.jpg" alt="Memory 1">
+          <img src="https://i.postimg.cc/SnKVsbjS/Whats-App-Image-2026-04-08-at-17-37-30.jpg" alt="Memory 2">
+          <img src="https://i.postimg.cc/jDjv5YCt/Whats-App-Image-2026-04-08-at-17-37-30-(1).jpg" alt="Memory 3">
+          <img src="https://i.postimg.cc/YvS89Bjt/Whats-App-Image-2026-04-08-at-17-37-30-(2).jpg" alt="Memory 4">
+          <img src="https://i.postimg.cc/hXGMjRhG/Whats-App-Image-2026-04-09-at-10-20-24.jpg" alt="Memory 5">
+          <img src="https://i.postimg.cc/v4mXBwDQ/Whats-App-Image-2026-04-09-at-10-20-24-(1).jpg" alt="Memory 6">
+          <img src="https://i.postimg.cc/DSz5Z3mf/Whats-App-Image-2026-04-09-at-10-20-24-(2).jpg" alt="Memory 7">
+        </div>
+
+        <p class="gallery-note">Every photo is a piece of my favorite story — us. 💖</p>
+
+        <button class="popup-btn show-popup-btn" id="showLovePopup">Final Surprise 💌</button>
+      </div>
+    </div>
+  </section>
+
+  <div class="love-popup" id="lovePopup">
+    <div class="popup-box">
+      <div class="popup-hearts">💖 ✨ 💕 🌹 💘</div>
+      <div class="popup-title">I LOVE YOU FATIN</div>
+      <p class="popup-sub">Forever, always, and more every single day. 💗</p>
+      <div class="btn-wrap">
+        <button class="popup-btn" id="closePopup">Awww 💞</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const yesBtn = document.getElementById("yesBtn");
+    const noBtn = document.getElementById("noBtn");
+    const music = document.getElementById("bgMusic");
+    const musicBtn = document.getElementById("musicBtn");
+    const showLovePopup = document.getElementById("showLovePopup");
+    const lovePopup = document.getElementById("lovePopup");
+    const closePopup = document.getElementById("closePopup");
+
+    let size = 1;
+    let cuteIndex = 0;
+
+    const cuteTexts = [
+      "Yes 💕",
+      "Yesss 💖",
+      "Yess baby 🥺",
+      "Yess cutie 💗",
+      "YESSS MY LOVE 💘",
+      "YES PLEASEE FATIN 💞"
+    ];
+
+    function showPage(p) {
+      document.querySelectorAll(".page").forEach(pg => pg.classList.remove("active"));
+      document.getElementById("page" + p).classList.add("active");
+      window.scrollTo(0, 0);
+    }
+
+    yesBtn.onclick = () => showPage(2);
+
+    function makeYesBigger() {
+      size += 0.18;
+      yesBtn.style.transform = `scale(${size})`;
+      cuteIndex = Math.min(cuteIndex + 1, cuteTexts.length - 1);
+      yesBtn.textContent = cuteTexts[cuteIndex];
+      if (size > 2.2) {
+        noBtn.textContent = "Okay okay 😭";
+      }
+    }
+
+    noBtn.onclick = (e) => {
+      e.preventDefault();
+      makeYesBigger();
+    };
+
+    noBtn.onmouseover = makeYesBigger;
+    noBtn.ontouchstart = (e) => {
+      e.preventDefault();
+      makeYesBigger();
+    };
+
+    function startMusic() {
+      music.volume = 0;
+      music.play().then(() => {
+        let vol = 0;
+        const fade = setInterval(() => {
+          if (vol < 1) {
+            vol += 0.05;
+            music.volume = Math.min(vol, 1);
+          } else {
+            clearInterval(fade);
+          }
+        }, 200);
+      }).catch(() => {});
+
+      document.removeEventListener("click", startMusic);
+      document.removeEventListener("touchstart", startMusic);
+    }
+
+    document.addEventListener("click", startMusic);
+    document.addEventListener("touchstart", startMusic);
+
+    musicBtn.onclick = () => {
+      if (music.paused) {
+        music.play();
+        musicBtn.textContent = "🎵 Music On";
+      } else {
+        music.pause();
+        musicBtn.textContent = "🔇 Music Off";
+      }
+    };
+
+    showLovePopup.onclick = () => {
+      lovePopup.classList.add("show");
+    };
+
+    closePopup.onclick = () => {
+      lovePopup.classList.remove("show");
+    };
+
+    lovePopup.addEventListener("click", (e) => {
+      if (e.target === lovePopup) {
+        lovePopup.classList.remove("show");
+      }
+    });
+
+    function createHeart() {
+      const heartWrap = document.getElementById("hearts");
+      const heart = document.createElement("div");
+      const icons = ["❤", "💖", "💕", "💗", "💘"];
+      heart.className = "heart";
+      heart.textContent = icons[Math.floor(Math.random() * icons.length)];
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.fontSize = (16 + Math.random() * 22) + "px";
+      heart.style.animationDuration = (5 + Math.random() * 5) + "s";
+      heart.style.opacity = 0.3 + Math.random() * 0.5;
+      heartWrap.appendChild(heart);
+
+      setTimeout(() => heart.remove(), 11000);
+    }
+
+    setInterval(createHeart, 420);
+  </script>
+</body>
+</html>
